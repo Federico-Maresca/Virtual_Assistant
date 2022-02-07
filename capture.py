@@ -24,7 +24,7 @@ class Capture :
         return self
 
     def update(self) :
-        while self.started :
+        while self.started and self.menu.started:
             (grabbed, frame) = self.stream.read() #get current frame
             self.read_lock.acquire()
             self.grabbed, self.frame = grabbed, frame
@@ -34,9 +34,6 @@ class Capture :
             frame = self.model.detectionW(frame)
             self.buildWindow(frame)
             time.sleep(0.033) #~30 fps
-            if self.menu.started is not True :
-                break
-        self.stop()
 
     def buildWindow (self, frame):
         frame_resized = cv2.resize(frame, (540, 360))    
@@ -90,6 +87,7 @@ class Capture :
 
     def stop(self) :
         self.started = False
+        cv2.destroyAllWindows()
         time.sleep(2)
         if self.thread.is_alive():
             self.thread.join()

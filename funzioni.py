@@ -11,7 +11,7 @@ value_beta_contrasto = 0
 value_luminosita=10
 value_rotation=90
 value_num_rotations = int(360 / value_rotation )  
-
+limite = 4
 #img = None
 def singleton(cls, *args, **kw):
     instances = {}

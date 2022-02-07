@@ -10,8 +10,7 @@ def main() :
     mymenu = m.MenuGesti(gestureQueue)
     capture = c.Capture(mymenu, gestureQueue).start()
     mymenu.start()
-    capture.join()
-    cv2.destroyAllWindows()
+    capture.stop()
 
 if __name__ == "__main__" :
     main()

@@ -95,7 +95,7 @@ class MenuGesti():
         self.immagini=deque()
         self.path = 'Images/'
         for filename in os.listdir(self.path): #lista di tuple : [immagine, nome]
-            self.immagini.append( (cv2.imread(self.path + filename, cv2.IMREAD_COLOR), filename) )
+            self.immagini.append( [cv2.imread(self.path + filename, cv2.IMREAD_COLOR), filename] )
         
         self.filters = deque()
         for function in option :
@@ -118,6 +118,13 @@ class MenuGesti():
 
     def getCurrImg(self) :
         return cv2.resize(self.immagini[0][0].copy(), (1080, 720))
+    
+    def setImmagine(self) :
+            #tuple are immutable so these 3 lines are to 
+            self.immagini[0][0] = self.img.copy()
+            #x = list(self.immagini[0])
+            #x[0] = self.img.copy()
+            #self.immagini[0] = tuple(x)
 
     def start(self) :
         if self.started :
@@ -142,15 +149,16 @@ class MenuGesti():
                 self.cambiaImmagine()
             elif self.gesture == 2 :
                 print("\nSalvataggio Immagine")
-                cv2.imwrite(self.immagini[0][1], self.getCurrImg())
+                cv2.imwrite(os.path.join('Virtual_Assistant_Files','Saved_images',self.immagini[0][1]), self.getCurrImg())
             elif self.gesture >=3 and self.gesture <= 6 : #entra in quel menu
                 if self.gesture == 3 :
                     self.limite = f.value_num_rotations
+                else :
+                    self.limite = f.limite
                 self.modificaImmagine()
             elif self.gesture == 7: #menu gesti
                 func = partial( cv2.resize,  self.imgMenuGesti, (1080, 720) )
                 self.currMenu = self.gesture
-                print(self.currMenu)
                 self.modificaImmagineInner(self.okSleep, self.imgOk, self.imgGesto, None, self.imgIndietro, None, func)
             elif self.gesture == 8 :  #menu filtri
                 self.currMenu = self.gesture
@@ -160,12 +168,10 @@ class MenuGesti():
                 print("\n Uscita dal Programma")
                 self.stop()
         elif self.currMenu == 3 : #Rotazione
-            if (self.count+1) == self.limite and self.gesture == 0 :
-                self.count = -1
+            if (self.count+1) == self.limite and self.gesture == 0 : #reset rotation when i reaches 360 degrees
+                self.count = -1 #-1 or +1 so that rotation functions receives 0 degree rotation (selfcount++ or --)
             elif self.count-1 == -self.limite and self.gesture == 1 :
                 self.count = 1
-            print(self.count)
-            print(self.limite)
             funcPlus = partial(f.functionR, self.getCurrImg().copy(), True, abs(self.count+1)  )
             funcMinus = partial(f.functionR, self.getCurrImg().copy(), False, abs(self.count-1) )
             self.modificaImmagine(funcPlus, funcMinus)
@@ -186,7 +192,6 @@ class MenuGesti():
             funcMinus = partial(f.functionW, self.getCurrImg(), False, abs(self.count-1), f.contrasto  )
             self.modificaImmagine(funcPlus, funcMinus)
         elif self.currMenu == 7 : #Menu Gesti #esci dal menu gesti
-            print("test")
             self.currMenu = 0
             self.modificaImmagineInner(self.okSleep, self.imgOk, self.imgGesto, None,
                                                         self.imgEseguiGesto, None, self.getCurrImg )
@@ -206,7 +211,7 @@ class MenuGesti():
     def cambiaFiltro(self):
         if self.gesture == 2 : #esci dal filtro
             self.currMenu = 0
-            self.immagini[0][0] = self.img
+            self.setImmagine()
             self.filters.rotate(-self.count)
             self.count = 0
             self.modificaImmagineInner(self.okSleep, self.imgOk, self.imgGesto, None, self.imgEseguiGesto)
@@ -275,15 +280,9 @@ class MenuGesti():
         elif self.gesture == 2 :  #azione conferma 
             self.count = 0
             self.currMenu = 0
-            self.limite = 4
             self.setImmagine()
             self.modificaImmagineInner(self.okSleep, self.imgOk, self.imgGesto, None, self.imgEseguiGesto)
-
-    def setImmagine(self) :
-        x = list(self.immagini[0])
-        x[0] = self.img.copy()
-        self.immagini[0] = tuple(x)
-
+    
     def writer(self):
         if self.currMenu == 8 : #son nel menu filtri
             var = menuNumber[self.currMenu]
