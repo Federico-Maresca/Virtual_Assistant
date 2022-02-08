@@ -122,22 +122,6 @@ class MenuGesti():
     def setImmagine(self) :
             self.immagini[0][0] = self.img.copy()
 
-    def start(self) :
-        if self.started :
-            print ("Thread has already been started.\n")
-            return None
-        self.started = True
-        #self.thread = Thread(target=self.menuHandler, args=())
-        #self.thread.start()
-        self.menuHandler()
-        return self
-
-    def stop(self) :
-        self.started = False
-        time.sleep(5)
-        if self.thread.is_alive():
-            self.thread.join()
- 
     def innerMenuHandler(self) :
         if self.currMenu == 0 :
             if  self.gesture <= 1 :
@@ -219,8 +203,8 @@ class MenuGesti():
                 self.count = 0
             self.filters.rotate(rotation)
             #codice per applicare filtro a immagine corrente nella coda (non lo salva)
-            self.modificaImmagineInner(self.okSleep, self.imgOk, self.imgEseguiGesto, None,
-                                        None, None, partial( self.filters[0], self.immagini[0][0], ))
+            self.modificaImmagineInner(self.okSleep, self.imgOk, self.imgEseguiGesto, self.menuImg[self.currMenu],
+                                        None, None, partial(f.functionF, self.getCurrImg(), self.filterCount, self.filters[0]) )
             self.writer()
         else :
             if self.gesture == 2 : #esci dal filtro
@@ -236,14 +220,9 @@ class MenuGesti():
             elif self.gesture == 1 and self.filterCount > 0:
                 self.filterCount -= 1
             self.modificaImmagineInner(self.okSleep, self.imgOk, self.imgEseguiGesto, self.menuImg[self.currMenu],
-                                    None, None, partial(f.functionF , self.immagini[0][0], self.filterCount, self.filters[0]))
+                                    None, None, partial(f.functionF, self.getCurrImg(), self.filterCount, self.filters[0]) )
             self.writer()
 
-            
-
-
-
-            
     def cambiaImmagine(self):
         if self.gesture == 0 :
             rotation = 1
@@ -301,17 +280,37 @@ class MenuGesti():
     def writer(self):
         if self.currMenu == 8 : #son nel menu filtri
             var = self.filters[0].__name__
-        elif self.count > 0 :
-            if self.count == self.limite :
-                var = menuNumber[self.currMenu] + " max"
+            tmp = self.filterCount
+        else :
+            var = menuNumber[self.currMenu]
+            tmp = self.count
+        if tmp > 0 :
+            if tmp == self.limite :
+                var = var + " max"
             else :
-                var = menuNumber[self.currMenu] + " +" + str(self.count)
-        elif self.count < 0:
-            if self.count == self.limite :
+                var = var + " +" + str(tmp)
+        elif tmp < 0:
+            if tmp == self.limite :
                 var = menuNumber[self.currMenu] + " min"
             else :
-                var = menuNumber[self.currMenu] +  " " + str(self.count)
+                var = menuNumber[self.currMenu] +  " " + str(tmp)
         else :
                 var = menuNumber[self.currMenu] +" 0"
         cv2.putText(self.overlay, var, self.org, self.font, self.fontScale, self.color, self.thickness, cv2.LINE_AA)
+    
+    def start(self) :
+        if self.started :
+            print ("Thread has already been started.\n")
+            return None
+        self.started = True
+        #self.thread = Thread(target=self.menuHandler, args=())
+        #self.thread.start()
+        self.menuHandler()
+        return self
 
+    def stop(self) :
+        self.started = False
+        time.sleep(5)
+        if self.thread.is_alive():
+            self.thread.join()
+ 

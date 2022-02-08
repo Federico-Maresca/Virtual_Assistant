@@ -42,7 +42,6 @@ class Capture :
         cv2.imshow('Computer_vision_Project', window)
         cv2.waitKey(1)
             
-
     def concatTileResize(self, list_2d, interpolation=cv2.INTER_CUBIC):
         # function calling for every
         # list of images

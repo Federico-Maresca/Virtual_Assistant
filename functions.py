@@ -73,7 +73,7 @@ def saturazione( img, soglia):
     else:
      s = s / value_saturazione
     s = np.clip(s, 0, 255)
-    return cv2.merge([h, s, v]).astype("uint8")
+    return (cv2.merge([h, s, v])).astype("uint8")
 
 def rotazione( img, soglia):
 
@@ -164,7 +164,7 @@ def contrasto(img, soglia) :
     return cv2.convertScaleAbs(img, alpha, value_beta_contrasto)
 
 #wrapper funzioni immagine
-def functionW(img, soglia, count , function) :
+def functionW(img, soglia, count, function) :
     for i in range(count) :
         img = function(img, soglia)
     return img

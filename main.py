@@ -5,7 +5,6 @@ import capture as c
 import functions as f
 
 def main() :
-
     gestureQueue = f.GestureQueue() 
     mymenu = m.MenuGesti(gestureQueue)
     capture = c.Capture(mymenu, gestureQueue).start()
