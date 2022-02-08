@@ -24,16 +24,13 @@ class Capture :
         return self
 
     def update(self) :
-        while self.started and self.menu.started:
-            (grabbed, frame) = self.stream.read() #get current frame
-            self.read_lock.acquire()
-            self.grabbed, self.frame = grabbed, frame
-            self.read_lock.release()
+        while self.started:
+            self.grabbed, self.frame = self.stream.read() #get current frame
             
             #run detection
-            frame = self.model.detectionW(frame)
-            self.buildWindow(frame)
-            time.sleep(0.033) #~30 fps
+            self.frame = self.model.detectionW(self.frame)
+            self.buildWindow(self.frame)
+            time.sleep(0.033) #~30 fps 1/30
 
     def buildWindow (self, frame):
         frame_resized = cv2.resize(frame, (540, 360))    

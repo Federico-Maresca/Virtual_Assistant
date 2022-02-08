@@ -2,7 +2,7 @@ import cv2
 # Import utilites
 import menu as m
 import capture as c
-import funzioni as f
+import functions as f
 
 def main() :
 

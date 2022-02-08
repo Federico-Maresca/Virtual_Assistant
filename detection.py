@@ -1,4 +1,3 @@
-
 from Virtual_Assistant_Files.models.research.object_detection.utils import label_map_util
 from Virtual_Assistant_Files.models.research.object_detection.utils import visualization_utils as viz_utils
 from Virtual_Assistant_Files.models.research.object_detection.builders import model_builder
@@ -8,7 +7,7 @@ import tensorflow as tf
 import cv2
 import numpy as np
 import os
-import funzioni as f
+import functions as f
 
 @f.singleton
 class Detection: #detection class for neural network
@@ -57,7 +56,7 @@ class Detection: #detection class for neural network
             return frame
         elif currGesture == self.prevGesture :    #check for stable gesture (removes one off frame detections, reduces noisy detections)
             self.currGestureCount += 1
-            if self.currGestureCount >= 30 :
+            if self.currGestureCount >= 15 :
                 self.currGestureCount = 0
                 self.gestureQ.enqueue(currGesture)
             return imgDetection
@@ -82,18 +81,18 @@ class Detection: #detection class for neural network
         detections['detection_classes'] = detections['detection_classes'].astype(np.int64)
         
         image_with_detections = image_np.copy()
-        viz_utils.visualize_boxes_and_labels_on_image_array(
-                    image_with_detections,
-                    detections['detection_boxes'],
-                    detections['detection_classes']+1,
-                    detections['detection_scores'],
-                    self.category_index,
-                    use_normalized_coordinates=True,
-                    max_boxes_to_draw=1,
-                    min_score_thresh=.95,
-                    agnostic_mode=False)
         max_val = max(detections['detection_scores'])
-        if (max_val >= 0.95) :
+        if (max_val >= 0.9) :
+            viz_utils.visualize_boxes_and_labels_on_image_array(
+                        image_with_detections,
+                        detections['detection_boxes'],
+                        detections['detection_classes']+1,
+                        detections['detection_scores'],
+                        self.category_index,
+                        use_normalized_coordinates=True,
+                        max_boxes_to_draw=1,
+                        min_score_thresh=.9,
+                        agnostic_mode=False)
             max_idx = np.where(detections['detection_scores']==max_val)
             gesture = detections['detection_classes'].__getitem__(max_idx)[0]
             return gesture,  image_with_detections

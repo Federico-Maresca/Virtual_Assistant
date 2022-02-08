@@ -106,7 +106,7 @@ def luminosita( img, soglia):
     return img
 
 def normal(img) :
-    return
+    return img
     
 def sepia( img):
     img_sepia = np.array(img, dtype=np.float64)  # converting to float to prevent loss
@@ -116,41 +116,45 @@ def sepia( img):
     img_sepia[np.where(img_sepia > 255)] = 255  # normalizing values greater than 255 to 255
     return np.array(img_sepia, dtype=np.uint8)
 
-def gaussianBlur( img):
-   '''
+def Blur(img ):
+
     kernel = np.array([
         [1, 2, 1],
         [2, 4, 2],
         [1, 2, 1]
-    ]) / 16
+    ]) / 16.3
 
     return cv2.filter2D(img, -1, kernel)
-    '''
-   return  cv2.GaussianBlur(img , (15,15) , 0)
 
 def HDR( img):
-    return cv2.detailEnhance(img, sigma_s=12, sigma_r=0.15)
+    return cv2.detailEnhance(img, sigma_s=3, sigma_r=0.03)
 
-def invert( img):
-    return cv2.bitwise_not(img)
+def invert( img, count):
+
+    (blue, green, red) = cv2.split(img)
+
+    if (count == 0) :
+       return cv2.merge([red, green, blue])
+    if (count == 1) :
+       return cv2.merge([red, blue, green])
+    if (count == 2) :
+       return cv2.merge([blue, red, green])
+    if (count == 3) :
+       return cv2.merge([green, red, blue])
+    if (count == 4) :
+       return cv2.merge([green, blue, red])
 
 def emboss( img):
     kernel = np.array([[0,-1,-1],
                             [1,0,-1],
-                            [1,1,0]])
+                            [1,1,0]]) / 1.65
     return cv2.filter2D(img, -1, kernel)
 
-def pencil_sketch_color(img):
+def cartoon(img):
     #inbuilt function to create sketch effect in colour and greyscale
-    sk_gray, sk_color = cv2.pencilSketch(img, sigma_s=60, sigma_r=0.07, shade_factor=0.1)
-    return  sk_color
-
-def edge_detection( img):
-
-    kernel = np.array([[-1,-1,-1],
-                            [-1,8,-1],
-                            [-1,-1,-1]])
-    return cv2.filter2D(img, -1, kernel)
+    #sk_gray, sk_color = cv2.pencilSketch(img, sigma_s=100, sigma_r=0.1, shade_factor=0.075)
+    #return  sk_color
+    return cv2.stylization(img,sigma_s=200, sigma_r=0.95)
 
 def contrasto(img, soglia) :
     if soglia:
@@ -173,4 +177,11 @@ def functionR(img, soglia, count) :
         count = value_num_rotations-count
     for i in range(count) :
         img = rotazione(img, soglia)
+    return img
+
+def functionF(img, count, function) :
+    if function == invert :
+        return invert(img, count)
+    for i in range(count) :
+        img = function(img)
     return img
