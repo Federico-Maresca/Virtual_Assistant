@@ -82,7 +82,7 @@ class Detection: #detection class for neural network
         
         image_with_detections = image_np.copy()
         max_val = max(detections['detection_scores'])
-        if (max_val >= 0.9) :
+        if (max_val >= 0.86) :
             viz_utils.visualize_boxes_and_labels_on_image_array(
                         image_with_detections,
                         detections['detection_boxes'],
@@ -91,7 +91,7 @@ class Detection: #detection class for neural network
                         self.category_index,
                         use_normalized_coordinates=True,
                         max_boxes_to_draw=1,
-                        min_score_thresh=.9,
+                        min_score_thresh=.86,
                         agnostic_mode=False)
             max_idx = np.where(detections['detection_scores']==max_val)
             gesture = detections['detection_classes'].__getitem__(max_idx)[0]

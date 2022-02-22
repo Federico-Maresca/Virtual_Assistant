@@ -31,6 +31,7 @@ class Capture :
             self.frame = self.model.detectionW(self.frame)
             self.buildWindow(self.frame)
             time.sleep(0.033) #~30 fps 1/30
+        cv2.destroyAllWindows()
 
     def buildWindow (self, frame):
         frame_resized = cv2.resize(frame, (540, 360))    
@@ -83,10 +84,7 @@ class Capture :
 
     def stop(self) :
         self.started = False
-        cv2.destroyAllWindows()
-        time.sleep(2)
-        if self.thread.is_alive():
-            self.thread.join()
+        self.thread.join()
 
     def __exit__(self, exc_type, exc_value, traceback) :
         self.stream.release()

@@ -4,6 +4,9 @@ import menu as m
 import capture as c
 import functions as f
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 def main() :
     gestureQueue = f.GestureQueue() 
     mymenu = m.MenuGesti(gestureQueue)

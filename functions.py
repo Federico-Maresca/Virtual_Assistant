@@ -4,9 +4,9 @@ import math
 from threading import Condition
 
 
-value_saturazione=1.3
-value1_alpha_contrasto = 1.15
-value2_alpha_contrasto= 0.85
+value_saturazione=1.1
+value1_alpha_contrasto = 1.05
+value2_alpha_contrasto= 0.95
 value_beta_contrasto = 0
 value_luminosita=10
 value_rotation=90
@@ -73,7 +73,15 @@ def saturazione( img, soglia):
     else:
      s = s / value_saturazione
     s = np.clip(s, 0, 255)
-    return (cv2.merge([h, s, v])).astype("uint8")
+    return  cv2.cvtColor((cv2.merge([h, s, v])).astype("uint8") , cv2.COLOR_HSV2BGR)
+
+def contrasto(img, soglia) :
+    if soglia:
+        alpha = value1_alpha_contrasto
+    else :
+        alpha = value2_alpha_contrasto
+    return cv2.convertScaleAbs(img, alpha = alpha, beta = value_beta_contrasto)
+
 
 def rotazione( img, soglia):
 
@@ -98,12 +106,13 @@ def rotazione( img, soglia):
     return cv2.warpAffine(img, rot, (b_w, b_h), flags=cv2.INTER_LINEAR)
 
 def luminosita( img, soglia):
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     v = img[:, :, 2]
     if(soglia):
       img[:, :, 2] = np.where(v <= 255 - value_luminosita, v + value_luminosita, 255)
     else:
       img[:, :, 2] = np.where(v >= value_luminosita, v - value_luminosita, 0)
-    return img
+    return cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
 
 def normal(img) :
     return img
@@ -156,12 +165,6 @@ def cartoon(img):
     #return  sk_color
     return cv2.stylization(img,sigma_s=200, sigma_r=0.95)
 
-def contrasto(img, soglia) :
-    if soglia:
-        alpha = value1_alpha_contrasto
-    else :
-        alpha = value2_alpha_contrasto
-    return cv2.convertScaleAbs(img, alpha, value_beta_contrasto)
 
 #wrapper funzioni immagine
 def functionW(img, soglia, count, function) :
