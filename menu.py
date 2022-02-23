@@ -134,7 +134,7 @@ class MenuGesti():
                 self.cambiaImmagine()
             elif self.gesture == 2 :
                 print("\nSalvataggio Immagine")
-                cv2.imwrite(os.path.join('Virtual_Assistant_Files','Saved_images',self.immagini[0][1]), self.getCurrImg())
+                cv2.imwrite(os.path.join('Saved_images',self.immagini[0][1]), self.getCurrImg())
             elif self.gesture >=3 and self.gesture <= 6 : #entra in quel menu
                 if self.gesture == 3 :
                     self.limite = f.value_num_rotations

@@ -1,7 +1,7 @@
-from Virtual_Assistant_Files.models.research.object_detection.utils import label_map_util
-from Virtual_Assistant_Files.models.research.object_detection.utils import visualization_utils as viz_utils
-from Virtual_Assistant_Files.models.research.object_detection.builders import model_builder
-from Virtual_Assistant_Files.models.research.object_detection.utils import config_util
+from object_detection.utils import label_map_util
+from object_detection.utils import visualization_utils as viz_utils
+from object_detection.builders import model_builder
+from object_detection.utils import config_util
 
 import tensorflow as tf
 import cv2
@@ -14,12 +14,12 @@ class Detection: #detection class for neural network
       
     def __init__(self, gestureQueue) :   
         self.paths = {
-        'CHECKPOINT_PATH': os.path.join('Virtual_Assistant_Files\my_ssd_mobnet_2'), 
+        'CHECKPOINT_PATH': 'SSD_Network', 
         }
         self.files = {
-            'PIPELINE_CONFIG':os.path.join('Virtual_Assistant_Files', 'my_ssd_mobnet_2', 'pipeline.config'),
+            'PIPELINE_CONFIG':os.path.join('SSD_Network', 'pipeline.config'),
             #'TF_RECORD_SCRIPT': os.path.join(paths['SCRIPTS_PATH'], TF_RECORD_SCRIPT_NAME), 
-            'LABELMAP': os.path.join('Virtual_Assistant_Files','my_ssd_mobnet_2', 'label_map.pbtxt')
+            'LABELMAP': os.path.join('SSD_Network', 'label_map.pbtxt')
         }
             # Load pipeline config and build a detection model
         self.configs = config_util.get_configs_from_pipeline_file(self.files['PIPELINE_CONFIG'])
