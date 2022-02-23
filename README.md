@@ -94,12 +94,15 @@ _These instructions allow for the quick setup and installation of all dependenci
    ```sh
    python -m virtualenv env && source env/bin/activate
    ```
-5. Install protobuf and run it to generate all the necessary .py files in the models/research/object_detection/protos folder (the end of this command returns you to the starting folder
+5. Install protobuf (sudo apt install protobug-compiler in Ubuntu) and run it to generate all the necessary .py files in the models/research/object_detection/protos folder (the end of this command returns you to the starting folder
    ```sh
-   pip install protobuf && cd models/research/ protoc object_detection/protos/*.proto --python_out=. && cd ../..
+   cd models/research && protoc object_detection/protos/*.proto --python_out=. && cd ../..
    ```
-6. Modify the [requirements.txt](https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/requirements.txt) file so that the object_detection module path points to the research folder inside the models folder as shown inside the file (line 49)
-7.  Run the following command to install all necessary libraries and dependencies
+6. Modify the [requirements.txt](https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/requirements.txt) file so that the object_detection module path points to the research folder inside the models folder as shown inside the file (line 49) and move the setup.py file 
+     ```sh
+   cp models/research/object_detection/packages/tf2/setup.py ./models/research
+   ```
+8.  Run the following command to install all necessary libraries and dependencies
    ```sh
    pip install -r requirements.txt
    ```
