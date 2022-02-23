@@ -94,7 +94,7 @@ _These instructions allow for the quick setup and installation of all dependenci
    ```sh
    python -m virtualenv env && source env/bin/activate
    ```
-5. Install protobuf (sudo apt install protobug-compiler in Ubuntu) and run it to generate all the necessary .py files in the models/research/object_detection/protos folder (the end of this command returns you to the starting folder
+5. Install protobuf (```sudo apt install protobug-compiler``` in Ubuntu) and run it to generate all the necessary .py files in the models/research/object_detection/protos folder (the end of this command returns you to the starting folder
    ```sh
    cd models/research && protoc object_detection/protos/*.proto --python_out=. && cd ../..
    ```
