@@ -3,7 +3,7 @@
 <div align="center">
 
   <h3 align="center">VISUAL ASSISTANCE IN IMAGE EDITING</h3>
-
+  <h4 align="center">Federico Maresca, Mattia Manfredini, Francesco Giacalone</h4>
   <p align="center">
     A Visual assistant for gesture recognition in the editing of images
   </p>
