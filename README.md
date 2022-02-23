@@ -92,7 +92,7 @@ _These instructions allow for the quick setup and installation of all dependenci
    ```
 4. Generate a virtual environment and access it
    ```sh
-   pip -m virtualenv env && source tf2_api_env/bin/activate
+   python -m virtualenv env && source env/bin/activate
    ```
 5. Install protobuf and run it to generate all the necessary .py files in the models/research/object_detection/protos folder (the end of this command returns you to the starting folder
    ```sh
