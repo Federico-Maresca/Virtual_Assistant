@@ -68,47 +68,20 @@ This python program requires Tensorflow and some setup so we suggest using a vir
 
 ### Installation
 
-_These instructions allow for the quick setup and installation of all dependencies such as the Tensorflow model zoo and various libraries._
+_These instructions allow for the quick setup and installation of all dependencies such as the Tensorflow lite support package and various libraries._
 
 1. Clone the repo.
    ```sh
    git clone https://github.com/Federico-Maresca/Virtual_Assistant.git
    ```
-2.  Clone the Tensorflow repo inside our program folder.
+2. Run setup.sh to install requirements. 
    ```sh
-   git clone https://github.com/tensorflow/models.git
+   sh setup.sh
    ```
-### Your folder structure should now look somethink like this:
-
-    Virtual_Assistant
-    ├── models                   # This is the tensorflow repo
-    ├── SSD_Network                    # Trained SSD model
-    ├── Immagini                     #  Other folders
-    ├── etc...                    
-    
-3. Install virtualenv (skip if you already have virtualenv package installed)
+4.  
+5. Now all is ready to use, just (always from your virtual  environment) run the following command line command to view the usage instructions.
    ```sh
-   pip install virtualenv 
-   ```
-4. Generate a virtual environment and access it
-   ```sh
-   python -m virtualenv env && source env/bin/activate
-   ```
-5. Install protobuf (```sudo apt install protobug-compiler``` in Ubuntu) and run it to generate all the necessary .py files in the models/research/object_detection/protos folder (the end of this command returns you to the starting folder
-   ```sh
-   cd models/research && protoc object_detection/protos/*.proto --python_out=. && cd ../..
-   ```
-6. Modify the [requirements.txt](https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/requirements.txt) file so that the object_detection module path points to the research folder inside the models folder as shown inside the file (line 49) and move the setup.py file 
-     ```sh
-   cp models/research/object_detection/packages/tf2/setup.py ./models/research
-   ```
-8.  Run the following command to install all necessary libraries and dependencies
-   ```sh
-   pip install -r requirements.txt
-   ```
-8. Now all is ready to use, just (always from your virtual  environment) run the following command line command
-   ```sh
-   python3 main.py
+   python3 main.py --help
    ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -124,28 +97,4 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
