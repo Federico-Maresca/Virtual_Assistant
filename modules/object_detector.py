@@ -19,7 +19,7 @@ from typing import List, NamedTuple
 
 import cv2
 import numpy as np
-from functions import GestureQueue
+from modules.functions import GestureQueue
 from tflite_support import metadata
 # pylint: disable=g-import-not-at-top
 try:

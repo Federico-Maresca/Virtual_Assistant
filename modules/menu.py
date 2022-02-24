@@ -4,7 +4,7 @@ from re import A, X
 import cv2
 import os
 import time
-import functions as f
+import modules.functions as f
 from threading import Thread, Lock
 from collections import deque
 from functools import partial

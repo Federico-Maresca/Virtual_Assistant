@@ -1,8 +1,9 @@
 import cv2
+import os
 # Import utilites
-import menu as m
-import capture as c
-import functions as f
+import modules.menu as m
+import modules.capture as c
+import modules.functions as f
 import argparse
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -23,7 +24,7 @@ def main():
       '--model',
       help='Path of the object detection model.',
       required=False,
-      default='detect1_metadata.tflite')
+      default=os.path.join('SSD_Network','detect1_metadata.tflite') )
   parser.add_argument(
       '--cameraId', help='Id of camera.', required=False, type=int, default=0)
   parser.add_argument(
