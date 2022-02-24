@@ -1,18 +1,23 @@
 import time
 import cv2
 from threading import Thread, Lock
-import detection as d
-class Capture :
 
-    def __init__(self, menu, gestureQueue, src = 0, width = 1280, height = 720) :
-        self.stream = cv2.VideoCapture(src,cv2.CAP_DSHOW)
+from object_detector import ObjectDetector
+from object_detector import ObjectDetectorOptions
+class Capture :
+    def __init__(self, menu, model, gestureQueue, src = 1, width = 1280, height = 720) :
+        self.stream = cv2.VideoCapture(src)
         self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, width)
         self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
         (self.grabbed, self.frame) = self.stream.read()
         self.started = False
         self.read_lock = Lock()
         self.menu = menu
-        self.model = d.Detection(gestureQueue)
+        options = ObjectDetectorOptions(
+          num_threads=4,
+          score_threshold=0.9,
+          max_results=1)
+        self.model = ObjectDetector(model_path=model, gestureQueue=gestureQueue, options=options)
 
     def start(self) :
         if self.started :
@@ -30,7 +35,7 @@ class Capture :
             #run detection
             self.frame = self.model.detectionW(self.frame)
             self.buildWindow(self.frame)
-            time.sleep(0.033) #~30 fps 1/30
+            time.sleep(0.001) #~30 fps 1/30
         cv2.destroyAllWindows()
 
     def buildWindow (self, frame):

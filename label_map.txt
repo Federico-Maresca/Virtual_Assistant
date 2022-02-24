@@ -1,0 +1,10 @@
+Piu
+Meno
+Conferma
+Ruota
+Saturazione
+Luminosita
+Contrasto
+Visualizza
+Filtri
+Esci
