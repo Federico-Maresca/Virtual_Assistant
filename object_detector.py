@@ -298,7 +298,7 @@ class ObjectDetector:
 
 _MARGIN = 10  # pixels
 _ROW_SIZE = 10  # pixels
-_FONT_SIZE = 1
+_FONT_SIZE = 2
 _FONT_THICKNESS = 1
 _TEXT_COLOR = (0, 0, 255)  # red
 
@@ -334,5 +334,5 @@ def visualize(
     cv2.putText(image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
                 _FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
     gesture = category.index
-  
+    print(class_name)
   return image, gesture

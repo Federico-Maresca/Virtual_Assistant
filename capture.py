@@ -5,7 +5,7 @@ from threading import Thread, Lock
 from object_detector import ObjectDetector
 from object_detector import ObjectDetectorOptions
 class Capture :
-    def __init__(self, menu, model, gestureQueue, src = 1, width = 1280, height = 720) :
+    def __init__(self, menu, model, gestureQueue, src : int, width : int, height : int, num_threads : int) :
         self.stream = cv2.VideoCapture(src)
         self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, width)
         self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
@@ -14,7 +14,7 @@ class Capture :
         self.read_lock = Lock()
         self.menu = menu
         options = ObjectDetectorOptions(
-          num_threads=4,
+          num_threads=num_threads,
           score_threshold=0.9,
           max_results=1)
         self.model = ObjectDetector(model_path=model, gestureQueue=gestureQueue, options=options)

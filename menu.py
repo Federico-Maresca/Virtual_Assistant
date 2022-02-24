@@ -10,15 +10,15 @@ from collections import deque
 from functools import partial
 
 
-menuBool = [[True, True, True, True, True, True, True, True, True, True], #Menu Principale
-             [False, False, False, False, False, False, False, False, False],   #dummy line
-             [False, False, False, False, False, False, False, False, False],   #dummy line
-             [True, True, True, False, False, False, False, False, False], #Rotazione
-             [True, True, True, False, False, False, False, False, False], #Saturazione
-             [True, True, True, False, False, False, False, False, False], #Luminosità
-             [True, True, True, False, False, False, False, False, False], #Contrasto
-             [False, False, True, False, False, False, False, False, False], #Gesti
-             [True, True, True, False, False, False, False, False, False]] #Filtri
+menuBool = [[True,  True,  True,   True,  True,  True,  True,  True,  True,  True], #Menu Principale
+            [False, False,  False, False, False, False, False, False, False, False],   #dummy line
+            [False, False,  False, False, False, False, False, False, False, False],   #dummy line
+            [True,  True,  True,   False, False, False, False, False, False, False], #Rotazione
+            [True,  True,  True,   False, False, False, False, False, False, False], #Saturazione
+            [True,  True,  True,   False, False, False, False, False, False, False], #Luminosità
+            [True,  True,  True,   False, False, False, False, False, False, False], #Contrasto
+            [False, False,  True,  False, False, False, False, False, False, False], #Gesti
+            [True,  True,  True,   False, False, False, False, False, False, False]] #Filtri
 
 
 menuNumber = { 0 :'principale'  ,
@@ -73,7 +73,7 @@ class MenuGesti():
                     8 : imgFiltri
     }
 
-    def __init__ (self, gestureQueue, path = 'Images/'):
+    def __init__ (self, gestureQueue, loadPath = 'Images/', savePath = '.'):
         #static variables
         self.currMenu = 0
         self.okSleep=1
@@ -93,13 +93,13 @@ class MenuGesti():
 
         self.started = False
         self.immagini=deque()
-        self.path = path
+        self.path = loadPath
+        self.savePath = savePath
         for filename in os.listdir(self.path): #lista di tuple : [immagine, nome]
             self.immagini.append( [cv2.imread(self.path + filename, cv2.IMREAD_COLOR), filename] )
 
         self.filters = deque()
         for function in option :
-            print(function.__name__)
             self.filters.append(function)
         #inizializza le immagini della finestra
         self.overlay = self.imgGesto.copy()
@@ -134,7 +134,7 @@ class MenuGesti():
                 self.cambiaImmagine()
             elif self.gesture == 2 :
                 print("\nSalvataggio Immagine")
-                cv2.imwrite(os.path.join('Saved_images',self.immagini[0][1]), self.getCurrImg())
+                cv2.imwrite(os.path.join(self.savePath,self.immagini[0][1]), self.getCurrImg())
             elif self.gesture >=3 and self.gesture <= 6 : #entra in quel menu
                 if self.gesture == 3 :
                     self.limite = f.value_num_rotations
