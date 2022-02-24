@@ -99,6 +99,8 @@ class ObjectDetector:
         ValueError: If the TFLite model is invalid.
         OSError: If the current OS isn't supported by EdgeTPU.
     """
+    #ADDED VARIABLES FOR MENU.PY COMPATIBILITY AND
+    # GESTURE RECOGNITION STABILIZATION#
     self.prevGesture = -1
     self.currGestureCount = 0
     self.gestureQ = gestureQueue
@@ -156,7 +158,7 @@ class ObjectDetector:
     self._interpreter = interpreter
     self._options = options
 
-
+  #ADDED FUNCTION FOR CAPTURE.PY COMPATIBILITY
 	
   def detectionW(self, frame):
     """Run detection and show on current frame and queue gesture if detection is
@@ -334,5 +336,4 @@ def visualize(
     cv2.putText(image, result_text, text_location, cv2.FONT_HERSHEY_PLAIN,
                 _FONT_SIZE, _TEXT_COLOR, _FONT_THICKNESS)
     gesture = category.index
-    print(class_name)
   return image, gesture

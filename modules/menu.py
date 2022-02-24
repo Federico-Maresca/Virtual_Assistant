@@ -50,19 +50,19 @@ option = [ f.normal,
 
 @f.singleton
 class MenuGesti():
-    imgSuccessive =  cv2.imread('immagini_progetto/immagini_successive.jpeg')
-    imgPrecedenti =  cv2.imread('immagini_progetto/immagini_precedenti.jpeg')
-    imgErrore =      cv2.imread('immagini_progetto/e3.png')
-    imgGesto =       cv2.imread('immagini_progetto/gesture.jpeg')
-    imgEseguiGesto = cv2.imread('immagini_progetto/gesto.jpeg')
-    imgOk =          cv2.imread('immagini_progetto/ok.png')
-    imgRuota =       cv2.imread('immagini_progetto/rotazione.jpeg')
-    imgSaturazione = cv2.imread('immagini_progetto/saturazione.jpeg')
-    imgContrasto =   cv2.imread('immagini_progetto/contrasto.jpeg')
-    imgLuminosita =  cv2.imread('immagini_progetto/luminosita.jpeg')
-    imgIndietro =    cv2.imread('immagini_progetto/indietro.jpeg')
-    imgMenuGesti =   cv2.imread('immagini_progetto/menu_gesti_prova.jpeg')
-    imgFiltri =      cv2.imread('immagini_progetto/filtri.jpeg')
+    imgSuccessive =  cv2.imread('GuiImages/immagini_successive.jpeg')
+    imgPrecedenti =  cv2.imread('GuiImages/immagini_precedenti.jpeg')
+    imgErrore =      cv2.imread('GuiImages/e3.png')
+    imgGesto =       cv2.imread('GuiImages/gesture.jpeg')
+    imgEseguiGesto = cv2.imread('GuiImages/gesto.jpeg')
+    imgOk =          cv2.imread('GuiImages/ok.png')
+    imgRuota =       cv2.imread('GuiImages/rotazione.jpeg')
+    imgSaturazione = cv2.imread('GuiImages/saturazione.jpeg')
+    imgContrasto =   cv2.imread('GuiImages/contrasto.jpeg')
+    imgLuminosita =  cv2.imread('GuiImages/luminosita.jpeg')
+    imgIndietro =    cv2.imread('GuiImages/indietro.jpeg')
+    imgMenuGesti =   cv2.imread('GuiImages/menu_gesti_prova.jpeg')
+    imgFiltri =      cv2.imread('GuiImages/filtri.jpeg')
 
     menuImg = { 
                     3 : imgRuota,

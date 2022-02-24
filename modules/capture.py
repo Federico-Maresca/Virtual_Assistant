@@ -4,6 +4,7 @@ from threading import Thread, Lock
 
 from modules.object_detector import ObjectDetector
 from modules.object_detector import ObjectDetectorOptions
+
 class Capture :
     def __init__(self, menu, model, gestureQueue, src : int, width : int, height : int, num_threads : int) :
         self.stream = cv2.VideoCapture(src)
