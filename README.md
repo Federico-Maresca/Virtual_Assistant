@@ -78,8 +78,7 @@ _These instructions allow for the quick setup and installation of all dependenci
    ```sh
    sh setup.sh
    ```
-4.  
-5. Now all is ready to use, just (always from your virtual  environment) run the following command line command to view the usage instructions.
+3. Now all is ready to use, just (always from your virtual  environment) run the following command line command to view the usage instructions.
    ```sh
    python3 main.py --help
    ```
@@ -92,9 +91,11 @@ _These instructions allow for the quick setup and installation of all dependenci
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- VIDEO EXAMPLES -->
+## Examples
 
 
 
