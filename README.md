@@ -97,11 +97,24 @@ Main features for image editing are:
 The following image shows all recognized gestures.
 ![alt text](https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/GuiImages/menu_gesti_prova.jpeg?raw=true)
 
+The first 6 gestures are used to access their respective menus from the Main menu. Gestures Più and Meno gestures are used to either change the image that is being edited or change the value of the current editing menu (for example +1 saturation). Inside all menus Conferma gesture is used to exit and conferm changes or, if in the main menu , to save the image to the Saved Image folder specified at runtime. Finally Esci is used in the main menu to exit the program. 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- VIDEO EXAMPLES -->
 ## Examples
+### How to change image in selected image folder
+<a href="url"><img src="https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/Sample%20Videos/tutorial_change_image.gif" width="640" height="480" > </a>
+ ### How to view gestures 
+<a href="url"><img src="https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/Sample%20Videos/tutorial_gesture_view.gif" width="640" height="480" ></a>
 
+### How to use the filters menu: select filter, then choose intensity
+<a href="url"><img src="https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/Sample%20Videos/tutorial_filter_cartoon.gif" width="640" height="480"></a>
+
+### How to rotate image
+<a href="url"><img src="https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/Sample%20Videos/tutorial_rotation.gif" width="640" height="480"></a>
+
+### How to exit
+<a href="url"><img src="https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/Sample%20Videos/tutorial_exit.gif" width="640" height="480"></a>
 
 
