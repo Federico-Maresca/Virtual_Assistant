@@ -40,3 +40,4 @@ Thumbs.db
 ###########
 /Virtual_Assistant_Files
 /__pycache__
+/modules/__pycache__
