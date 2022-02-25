@@ -28,8 +28,8 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#Usage">Usage</a></li>
-    <li><a href="#Examples">Roadmap</a></li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#examples">Roadmap</a></li>
   </ol>
 </details>
 
@@ -61,7 +61,9 @@ The neural network was trained with Tensorflow and the image editing was written
 
 This python program requires Tensorflow and some setup so we suggest using a virtualenv with pip. All requirements are saved in the [requirements.txt](https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/requirements.txt) file
 
+### Prerequisites
 
+This program can be run both from Windows and Linux. The setup is done with pip and so should be platform indipendent.
 ### Installation
 
 _These instructions allow for the quick setup and installation of all dependencies such as the Tensorflow lite support package and various libraries._
@@ -83,9 +85,17 @@ _These instructions allow for the quick setup and installation of all dependenci
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## Usage and Video Examples
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Main features for image editing are:
+  * Image Rotation
+  * Image Saturation
+  * Image Contrast
+  * Image Luminosity
+  * Filters
+
+The following image shows all recognized gestures.
+![alt text](https://github.com/Federico-Maresca/Virtual_Assistant/blob/master/GuiImages/menu_gesti_prova.jpeg?raw=true)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
