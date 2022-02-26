@@ -68,6 +68,8 @@ This program can be run both from Windows and Linux. The setup is done with pip 
 
 _These instructions allow for the quick setup and installation of all dependencies such as the Tensorflow lite support package and various libraries._
 
+0. _Optional_ Generate a new clean environment with virtualenv and activate it.
+
 1. Clone the repo.
    ```sh
    git clone https://github.com/Federico-Maresca/Virtual_Assistant.git
