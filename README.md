@@ -72,11 +72,11 @@ _These instructions allow for the quick setup and installation of all dependenci
    ```sh
    git clone https://github.com/Federico-Maresca/Virtual_Assistant.git
    ```
-2. Run setup.sh to install requirements. 
+2. Run setup.py to install requirements. Change to python3 for Linux.
    ```sh
-   sh setup.sh
+   python setup.py
    ```
-3. Now all is ready to use, just (always from your virtual  environment) run the following command line command to view the usage instructions.
+3. Now all it's ready to use, just (always from your virtual  environment) run the following command line command to view the usage instructions.
    ```sh
    python3 main.py --help
    ```
