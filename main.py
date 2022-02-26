@@ -10,10 +10,10 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 model = 'detect1_metadata.tflite'
 savePath = '.'
-def run(model: str, loadPath: str, savePath: str, camera_id: int, width: int, height: int, num_threads: int) -> None:
+def run(model: str, loadPath: str, savePath: str, camera_id: int, width: int, height: int, num_threads: int, score_threshold : float) -> None:
     gestureQueue = f.GestureQueue() 
     mymenu = m.MenuGesti(gestureQueue, loadPath, savePath)
-    capture = c.Capture(mymenu, model, gestureQueue, camera_id, width, height, num_threads).start()
+    capture = c.Capture(mymenu, model, gestureQueue, camera_id, width, height, num_threads, score_threshold).start()
     mymenu.start()
     capture.stop()
 
@@ -40,6 +40,12 @@ def main():
       type=int,
       default=720)
   parser.add_argument(
+      '--score_threshold',
+      help='Threshold for gesture recognition.',
+      required=False,
+      type=float,
+      default=0.85)
+  parser.add_argument(
       '--numThreads',
       help='Number of CPU threads to run the model.',
       required=False,
@@ -57,7 +63,7 @@ def main():
       default='Images/')
   args = parser.parse_args()
   run(args.model, args.loadPath, args.savePath, int(args.cameraId), args.frameWidth, args.frameHeight,
-      int(args.numThreads))
+      int(args.numThreads), float(args.score_threshold) )
 
 
 if __name__ == "__main__" :
