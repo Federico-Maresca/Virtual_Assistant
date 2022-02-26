@@ -3,14 +3,17 @@ import numpy as np
 import math
 from threading import Condition
 
-
-value_saturazione=1.1
+"""
+Valori usati dalle funzioni 
+"""
+value_saturazione=1.35
 value1_alpha_contrasto = 1.05
-value2_alpha_contrasto= 0.95
+value2_alpha_contrasto= 0.85
 value_beta_contrasto = 0
 value_luminosita=10
 value_rotation=90
 value_num_rotations = int(360 / value_rotation )  
+#numero massimo di volte che si può applicare una modifica
 limite = 4
 #img = None
 def singleton(cls, *args, **kw):
@@ -20,7 +23,10 @@ def singleton(cls, *args, **kw):
             instances[cls] = cls(*args, **kw)
         return instances[cls]
     return _singleton
-    
+""" Classe GestureQueue è il mezzo di comunicazione tra il thread menu e il thread capture. Capture accoda i gesti
+mentre Menu effetta la deque per ottenerli. E' protetta da un lock che assicura la thread safety e mette in wait il menu mentre non
+ci sono gesti.
+"""
 @singleton
 class GestureQueue:
 
@@ -65,6 +71,14 @@ class GestureQueue:
         self.gestureCond.notifyAll()
         self.gestureCond.release()
 
+""" Funzione di saturazione immagine.
+Args: 
+    img : immagine da modificare
+    soglia : se True aumenta la saturazione, 
+             se False la riduce
+Returns
+    Immagine modificata
+"""
 def saturazione( img, soglia):
     imghsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV).astype("float32")
     (h, s, v) = cv2.split(imghsv)
@@ -75,6 +89,14 @@ def saturazione( img, soglia):
     s = np.clip(s, 0, 255)
     return  cv2.cvtColor((cv2.merge([h, s, v])).astype("uint8") , cv2.COLOR_HSV2BGR)
 
+""" Funzione di contrasto immagine.
+Args: 
+    img : immagine da modificare
+    soglia : se True aumenta il contrasto, 
+             se False lo riduce
+Returns
+    Immagine modificata
+"""
 def contrasto(img, soglia) :
     if soglia:
         alpha = value1_alpha_contrasto
@@ -82,7 +104,14 @@ def contrasto(img, soglia) :
         alpha = value2_alpha_contrasto
     return cv2.convertScaleAbs(img, alpha = alpha, beta = value_beta_contrasto)
 
-
+""" Funzione di rotazione immagine.
+Args: 
+    img : immagine da modificare
+    soglia : se True ruota di +90°, 
+             se False ruota di -90°
+Returns
+    Immagine modificata
+"""
 def rotazione( img, soglia):
 
     h, w = img.shape[:2]
@@ -105,6 +134,14 @@ def rotazione( img, soglia):
 
     return cv2.warpAffine(img, rot, (b_w, b_h), flags=cv2.INTER_LINEAR)
 
+""" Funzione di luminosità immagine.
+Args: 
+    img : immagine da modificare
+    soglia : se True aumenta la luminosità, 
+             se False la riduce
+Returns
+    Immagine modificata
+"""
 def luminosita( img, soglia):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     v = img[:, :, 2]
@@ -114,9 +151,22 @@ def luminosita( img, soglia):
       img[:, :, 2] = np.where(v >= value_luminosita, v - value_luminosita, 0)
     return cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
 
+""" Funzione filtro normal. Serve come dummy function quando si 
+è appena entrati nel menù filtri e non si è ancora effettuata una scelta
+Args: 
+    img
+Returns
+    Immagine non modificata
+"""
 def normal(img) :
     return img
-    
+
+""" Funzione filtro sepia
+Args : 
+    img :immagine da modificare
+Returns :
+    Immagine modificata
+"""
 def sepia( img):
     img_sepia = np.array(img, dtype=np.float64)  # converting to float to prevent loss
     img_sepia = cv2.transform(img_sepia, np.matrix([[0.272, 0.534, 0.131],
@@ -125,6 +175,12 @@ def sepia( img):
     img_sepia[np.where(img_sepia > 255)] = 255  # normalizing values greater than 255 to 255
     return np.array(img_sepia, dtype=np.uint8)
 
+""" Funzione filtro blur
+Args : 
+    img :immagine da modificare
+Returns :
+    Immagine modificata
+"""
 def Blur(img ):
 
     kernel = np.array([
@@ -135,9 +191,22 @@ def Blur(img ):
 
     return cv2.filter2D(img, -1, kernel)
 
+""" Funzione filtro HDR
+Args : 
+    img :immagine da modificare
+Returns :
+    Immagine modificata
+"""
 def HDR( img):
     return cv2.detailEnhance(img, sigma_s=3, sigma_r=0.03)
 
+""" Funzione filtro invert
+Args : 
+    img :immagine da modificare
+    count : tipo di inversione da applicare
+Returns :
+    Immagine modificata
+"""
 def invert( img, count):
 
     (blue, green, red) = cv2.split(img)
@@ -153,12 +222,24 @@ def invert( img, count):
     if (count == 4) :
        return cv2.merge([green, blue, red])
 
+""" Funzione filtro emboss
+Args : 
+    img :immagine da modificare
+Returns :
+    Immagine modificata
+"""
 def emboss( img):
     kernel = np.array([[0,-1,-1],
                             [1,0,-1],
                             [1,1,0]]) / 1.65
     return cv2.filter2D(img, -1, kernel)
 
+""" Funzione filtro cartoon
+Args : 
+    img :immagine da modificare
+Returns :
+    Immagine modificata
+"""
 def cartoon(img):
     #inbuilt function to create sketch effect in colour and greyscale
     #sk_gray, sk_color = cv2.pencilSketch(img, sigma_s=100, sigma_r=0.1, shade_factor=0.075)
@@ -167,12 +248,32 @@ def cartoon(img):
 
 
 #wrapper funzioni immagine
+""" Funzione weapper per applicare più volte un filtro partendo sempre dall'immagine originale
+, così facendo si combatte il degrado immagine che si avrebbe lavorando su una immagine precedenemente
+modificate. Per esempio per passare da una saturazione +3 a una saturazione +2 anzichè applicare la funzione di saturazione
+all'immagine già modificata precedentemente si applica la saturazione due volte all'immagine originale.
+Args : 
+    img :immagine da modificare
+    soglia : valore True o False da passsare alla funzione 'function'
+    count : numero di volte da applicare il filtro
+    function : puntatore a funzione da applicare
+Returns :
+    Immagine modificata
+"""
 def functionW(img, soglia, count, function) :
     for i in range(count) :
         img = function(img, soglia)
     return img
 
 #wrapper rotazione
+""" Funzione wrapper di rotazione
+Args : 
+    img :immagine da modificare
+    soglia : valore True o False da passsare alla funzione 'rotazione'
+    count : numero di rotazioni da effettuare
+Returns :
+    Immagine modificata
+"""
 def functionR(img, soglia, count) :
     #ottimizza la rotazione (esempio se ruota a dx  di x e x > 180° ruota invece a sx di 360°-x°count = count%value_num_rotations
     if  count > value_num_rotations/2 :
@@ -182,6 +283,14 @@ def functionR(img, soglia, count) :
         img = rotazione(img, soglia)
     return img
 
+""" Funzione wrapper filtri. Inver ha un comportamento diverso dagli altri filtri.
+Args : 
+    img :immagine da modificare
+    count : numero di volte che bisogna applicare il filtro o combinazione di invert da usare
+    function : puntatore a funzione filtro da applicare
+Returns :
+    Immagine modificata
+"""
 def functionF(img, count, function) :
     if function == invert :
         return invert(img, count)
